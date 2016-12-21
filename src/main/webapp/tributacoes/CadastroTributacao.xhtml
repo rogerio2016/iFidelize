@@ -1,0 +1,69 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">#{cadastroTributacaoBean.editando ? 'Edição de Tributação' : 'Nova Tributação'}</ui:define>
+
+
+	<ui:define name="corpo">
+		<f:metadata>
+			<o:viewParam name="tributacao"
+				value="#{cadastroTributacaoBean.tributacao}" />
+			<f:viewParam name="dummy" />
+		</f:metadata>
+
+		<h:form>
+			<p:messages autoUpdate="true" closable="true" />
+			<h2>#{cadastroTributacaoBean.editando ? 'Edição de Tributação' :
+				'Nova Tributação'}</h2>
+
+			<p:toolbar style="margin-top: 20px;height:50px" styleClass="well">
+				<p:toolbarGroup>
+					<h:button value="Novo" outcome="/tributacoes/CadastroTributacao"
+						styleClass="btn btn-dark" style="margin-top: -12px;" />
+					<h:commandButton value="Salvar" id="botaoSalvar"
+						action="#{cadastroTributacaoBean.salvar}" update="@form"
+						ajax="true" styleClass="btn btn-dark" style="margin-top: -12px;" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<h:button value="Pesquisa"
+						outcome="/tributacoes/PesquisaTributacao"
+						styleClass="btn btn-dark" style="margin-top: -12px;" />
+				</p:toolbarGroup>
+			</p:toolbar>
+			<p:panelGrid columns="2" style="width: 60%;margin-top:20px">
+
+				<p:outputLabel value="Descrição" />
+				<p:inputText id="descricao" size="100" maxlength="100"
+					style="width: 50%"
+					value="#{cadastroTributacaoBean.tributacao.des_descricao}" />
+
+				<p:outputLabel style="font-weight: bold;" value="Tipo Tributação"
+					for="tipoTributacao" />
+				<p:selectOneMenu id="tipoTributacao" required="true"
+					value="#{cadastroTributacaoBean.tributacao.des_tipo_tributacao}">
+					<f:selectItem itemLabel="Selecione o Tipo da Tributação" />
+					<f:selectItems value="#{cadastroTributacaoBean.tipoTributacao}"
+						var="tipoTributacao" itemValue="#{tipoTributacao}"
+						itemLabel="#{tipoTributacao.descricao}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Valor ICMS" style="font-weight: bold;" />
+				<p:inputText id="val_icms" size="100" maxlength="100"
+					styleClass="moeda" style="width: 15%"
+					value="#{cadastroTributacaoBean.tributacao.val_icms}">
+					<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+				</p:inputText>
+
+				<p:outputLabel value="Código de Referencia"
+					style="font-weight: bold;" />
+				<p:inputText id="cod_referencia" size="100" maxlength="100"
+					style="width: 40%"
+					value="#{cadastroTributacaoBean.tributacao.cod_referencia}" />
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

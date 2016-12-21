@@ -1,0 +1,49 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">#{cadastroGrupoBean.editando ? 'Edição de grupo' : 'Novo grupo'}</ui:define>
+
+
+	<ui:define name="corpo">
+		<f:metadata>
+			<o:viewParam name="grupo" value="#{cadastroGrupoBean.grupo}" />
+			<f:viewParam name="dummy" />
+		</f:metadata>
+
+		<h:form>
+			<p:messages autoUpdate="true" closable="true" />
+			<h2>#{cadastroGrupoBean.editando ? 'Edição de grupo' : 'Novo
+				grupo'}</h2>
+
+			<p:toolbar style="margin-top: 20px;height:50px" styleClass="well">
+				<p:toolbarGroup>
+					<h:button value="Novo" outcome="/grupos/CadastroGrupo"
+						styleClass="btn btn-dark" style="margin-top: -12px;" />
+					<h:commandButton value="Salvar" id="botaoSalvar"
+						action="#{cadastroGrupoBean.salvar}" update="@form" ajax="true"
+						styleClass="btn btn-dark" style="margin-top: -12px;" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<h:button value="Pesquisa" outcome="/grupos/PesquisaGrupos"
+						styleClass="btn btn-dark" style="margin-top: -12px;" />
+				</p:toolbarGroup>
+			</p:toolbar>
+			<p:panelGrid style="width: 60%;margin-top:20px">
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Descrição" />
+					</p:column>
+					<p:column>
+						<p:inputText id="descricao" size="100" maxlength="100"
+							style="width: 70%"
+							value="#{cadastroGrupoBean.grupo.des_descricao}" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,97 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Pesquisa produtos</ui:define>
+
+	<ui:define name="corpo">
+		<h:form id="frmPesquisa">
+			<h2>Pesquisa produtos</h2>
+
+			<p:messages autoUpdate="true" closable="true" />
+			<p:toolbar style="margin-top: 20px;height:50px" styleClass="well">
+				<p:toolbarGroup>
+					<h:commandButton value="Pesquisar" styleClass="btn btn-dark"
+						style="margin-top: -12px;"
+						action="#{pesquisaProdutosBean.pesquisar}" update="@form" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<h:commandButton value="Imprimir"
+						styleClass="glyphicon glyphicon-print btn btn-dark"
+						style="margin-top: -12px;">
+						<p:printer target="produtosTable" />
+					</h:commandButton>
+				</p:toolbarGroup>
+
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+				<p:outputLabel style="font-weight: bold;" value="PLU" for="plu" />
+				<p:inputText id="plu" size="20"
+					value="#{pesquisaProdutosBean.filtro.num_plu}" />
+
+				<p:outputLabel style="font-weight: bold;" for="codBarra"
+					value="Cod.Barras" />
+				<p:inputText id="codBarra" size="20"
+					value="#{pesquisaProdutosBean.filtro.des_codbarra}" />
+
+				<p:outputLabel style="font-weight: bold;" for="descricao"
+					value="Descrição" />
+				<p:inputText id="descricao" size="60"
+					value="#{pesquisaProdutosBean.filtro.des_descricao}" />
+			</p:panelGrid>
+
+			<p:dataTable id="produtosTable"
+				value="#{pesquisaProdutosBean.produtosFiltrados}" var="produto"
+				style="margin-top: 20px;zoom:80%"
+				emptyMessage="Nenhum produto encontrado." rows="20" paginator="true"
+				paginatorAlwaysVisible="false" paginatorPosition="bottom">
+				<p:column headerText="PLU" style="text-align: center; width: 40px">
+					<h:outputText value="#{produto.num_plu}" />
+				</p:column>
+				<p:column headerText="Cod.Barra"
+					style="text-align: left; width: 120px">
+					<h:outputText value="#{produto.num_codbarra}"
+						style="text-align: left" />
+				</p:column>
+				<p:column headerText="Nome" style="width: 230px">
+					<h:outputText value="#{produto.des_descricao}" />
+				</p:column>
+				<p:column headerText="Grupo" style="width: 100px">
+					<h:outputText value="#{produto.cod_grupo.des_descricao}" />
+				</p:column>
+				<p:column headerText="UN" style="width: 50px">
+					<h:outputText value="#{produto.des_unidade.descricao}" />
+				</p:column>
+				<p:column headerText="Grupo" style="width: 150px">
+					<h:outputText value="#{produto.cod_grupo.des_descricao}" />
+				</p:column>
+
+				<p:column headerText="Estoque"
+					style="text-align: center; width: 80px">
+					<h:outputText value="#{produto.val_estoque}" />
+				</p:column>
+
+				<p:column headerText="Val Unitário"
+					style="text-align: right; width: 80px">
+					<h:outputText value="#{produto.val_valor_venda}" />
+				</p:column>
+
+				<p:column headerText="Val Promoção"
+					style="text-align: right; width: 80px">
+					<h:outputText value="#{produto.val_valor_promocao}" />
+				</p:column>
+
+				<p:column headerText="Val Especial"
+					style="text-align: right; width: 80px">
+					<h:outputText value="#{produto.val_valor_especial}" />
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

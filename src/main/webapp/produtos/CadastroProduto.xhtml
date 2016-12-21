@@ -1,0 +1,245 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">#{cadastroProdutoBean.editando ? 'Edição de produto' : 'Novo produto'}</ui:define>
+
+	<ui:define name="corpo">
+		<f:metadata>
+			<o:viewParam name="produto" value="#{cadastroProdutoBean.produto}" />
+			<f:viewParam name="dummy" />
+			<f:event listener="#{cadastroProdutoBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+		<h:form>
+			<p:messages autoUpdate="true" closable="true" />
+			<h2>#{cadastroProdutoBean.editando ? 'Edição de produto' : 'Novo produto'}</h2>
+
+			<p:toolbar style="margin-top: 20px;height:50px" styleClass="well">
+				<p:toolbarGroup>
+					<h:button value="Novo" outcome="/produtos/CadastroProduto" styleClass="btn btn-dark" style="margin-top: -12px;" />
+					<h:commandButton value="Salvar" id="botaoSalvar"					
+						action="#{cadastroProdutoBean.salvar}" update="@form" ajax="true"
+						styleClass="btn btn-dark" style="margin-top: -12px;" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<h:button value="Pesquisa" outcome="/produtos/PesquisaProdutos" styleClass="btn btn-dark" style="margin-top: -12px;" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:tabView cache="false" 
+				style="width: 100%; margin-top: 20px">
+				<p:tab title="Dados basicos">
+
+					<p:panelGrid columns="2" id="painel"
+						style="width: 70%; margin-top: 20px" columnClasses="rotulo, campo">
+						<p:outputLabel style="font-weight: bold;" value="PLU" for="plu" />
+						<p:inputText id="plu" size="10" maxlength="10" value="#{cadastroProdutoBean.produto.num_plu}"/>
+
+						<p:outputLabel style="font-weight: bold;" value="Cod.Barra"
+							for="codBarra" />
+						<p:inputText id="codBarra" size="14" maxlength="14"
+							value="#{cadastroProdutoBean.produto.num_codbarra}" />
+
+						<p:outputLabel style="font-weight: bold;" value="Descricao"
+							for="descricao" />
+						<p:inputText id="descricao" size="60" maxlength="80"
+							value="#{cadastroProdutoBean.produto.des_descricao}" />
+
+						<p:outputLabel style="font-weight: bold;" value="Unidade" for="uniade" />
+						<h:selectOneMenu id="uniade" styleClass="form-control" style="width: 200px" 
+							value="#{cadastroProdutoBean.produto.des_unidade}">
+							<f:selectItem itemLabel="Selecione a unidade" />
+							<f:selectItems value="#{cadastroProdutoBean.unidade}"
+								var="uniade" itemValue="#{unidade}"
+								itemLabel="#{unidade.des_descricao}" />
+						</h:selectOneMenu>
+
+						<p:outputLabel style="font-weight: bold;" value="Grupo"
+							for="cod_grupo" />
+
+						<p:selectOneMenu id="cod_grupo"
+							value="#{cadastroProdutoBean.produto.cod_grupo}">
+							<f:selectItem itemLabel="Selecione o Grupo" />
+							<f:selectItems value="#{cadastroProdutoBean.listarGrupo}"
+								var="cod_grupo" itemValue="#{cod_grupo}"
+								itemLabel="#{cod_grupo.des_descricao}" />						
+						</p:selectOneMenu>
+						
+					</p:panelGrid>
+				</p:tab>
+				<p:tab title="Valores/Tributações">
+
+					<p:panelGrid columns="4" id="painel2"
+						style="width: 40%; margin-top: 20px" columnClasses="rotulo, campo">
+						<p:outputLabel style="font-weight: bold;" value="Valor custo"
+							for="valorCusto" />
+						<p:inputText id="valorCusto" size="10" maxlength="10"
+							styleClass="moeda"
+							value="#{cadastroProdutoBean.produto.val_valor_custo}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:inputText>
+
+						<p:outputLabel style="font-weight: bold;" value="Valor unitário"
+							for="valorUnitario" />
+						<p:inputText id="valorUnitario" size="10" maxlength="10"
+							styleClass="moeda"
+							value="#{cadastroProdutoBean.produto.val_valor_venda}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:inputText>
+
+						<p:outputLabel style="font-weight: bold;"
+							value="Preço Venda promoção" for="valorPromocao" />
+						<p:inputText id="valorPromocao" size="10" maxlength="10"
+							styleClass="moeda"
+							value="#{cadastroProdutoBean.produto.val_valor_promocao}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:inputText>
+
+						<p:outputLabel style="font-weight: bold;"
+							value="Preço Venda Especial" for="valorEspecial" />
+						<p:inputText id="valorEspecial" size="10" maxlength="10"
+							styleClass="moeda"
+							value="#{cadastroProdutoBean.produto.val_valor_especial}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:inputText>
+
+						<p:outputLabel style="font-weight: bold;" value="Qtd.Estoque"
+							for="estoque" />
+						<p:inputText id="estoque" size="10" maxlength="10"
+							value="#{cadastroProdutoBean.produto.val_estoque}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:inputText>
+
+						<p:outputLabel style="font-weight: bold;" value="%Desc.Max"
+							for="descMax" />
+						<p:inputText id="descMax" size="10" maxlength="10"
+							styleClass="moeda" />
+
+						<p:outputLabel style="font-weight: bold;"
+							value="%Imposto Estadual" for="descEstadual" />
+						<p:inputText id="descEstadual" size="10" maxlength="10"
+							styleClass="moeda"
+							value="#{cadastroProdutoBean.produto.val_perc_imposto_estadual}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:inputText>
+
+						<p:outputLabel style="font-weight: bold;" value="%Imposto Federal"
+							for="descFederal" />
+						<p:inputText id="descFederal" size="10" maxlength="10"
+							styleClass="moeda"
+							value="#{cadastroProdutoBean.produto.val_perc_imposto_federal}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:inputText>
+
+						<p:outputLabel style="font-weight: bold;"
+							value="%Imposto Municipal" for="descMunicipal" />
+						<p:inputText id="descMunicipal" size="10" maxlength="10"
+							styleClass="moeda"
+							value="#{cadastroProdutoBean.produto.val_perc_imposto_municipal}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</p:inputText>
+
+						<p:outputLabel style="font-weight: bold;" value="Chave IBPT"
+							for="chaveIBPT" />
+						<p:inputText id="chaveIBPT" size="10" maxlength="10"
+							styleClass="moeda"
+							value="#{cadastroProdutoBean.produto.des_chave_ibpt}" />
+
+					</p:panelGrid>
+					<p:panelGrid columns="4" id="painel21"
+						style="width: 40%; margin-top: 0px" columnClasses="rotulo, campo">
+						<p:outputLabel style="font-weight: bold;" value="NCM" for="ncm" />
+						<p:inputText id="ncm" size="20" maxlength="15" value="#{cadastroProdutoBean.produto.num_ncm}"/>
+
+
+						<p:outputLabel style="font-weight: bold;" value="Tributação"
+							for="cod_tributacao" />
+
+						<p:selectOneMenu id="cod_tributacao" style="width: 90%; margin-top: 0px" 
+							value="#{cadastroProdutoBean.produto.cod_tributacao}">
+							<f:selectItem itemLabel="Selecione a Tributação" />
+							<f:selectItems value="#{cadastroProdutoBean.listarTributacao}"
+								var="cod_tributacao" itemValue="#{cod_tributacao}"
+								itemLabel="#{cod_tributacao.des_descricao}" />
+						</p:selectOneMenu>
+
+					</p:panelGrid>
+				</p:tab>
+				<p:tab title="Parametros">
+					<p:panelGrid columns="4" id="painel3"
+						style="width: 40%; margin-top: 0px" columnClasses="rotulo, campo">
+						<p:outputLabel style="font-weight: bold;"
+							value="Preço por quantidade?" for="precQtd" />
+						<p:selectBooleanCheckbox id="precQtd" />
+
+						<p:outputLabel style="font-weight: bold;"
+							value="Produto Alcoólico?" for="alcoolico" />
+						<p:selectBooleanCheckbox id="alcoolico" />
+
+						<p:outputLabel style="font-weight: bold;" value="Cesta Basica?"
+							for="cestaBasica" />
+						<p:selectBooleanCheckbox id="cestaBasica" />
+
+						<p:outputLabel style="font-weight: bold;"
+							value="Bloqueia Multiplicação?" for="bloqueiax" />
+						<p:selectBooleanCheckbox id="bloqueiax" />
+
+						<p:outputLabel style="font-weight: bold;" value="Pede Fiscal?"
+							for="pedeFiscal" />
+						<p:selectBooleanCheckbox id="pedeFiscal" />
+					</p:panelGrid>
+				</p:tab>
+				<p:tab title="SAT">
+					<p:panelGrid columns="2" id="painel4"
+						style="width: 40%; margin-top: 0px" columnClasses="rotulo, campo">
+						<p:outputLabel style="font-weight: bold;" value="Origem Merc."
+							for="origem" />
+						<h:selectOneMenu id="origem" styleClass="form-control" style="width: 200px">
+							<f:selectItem itemLabel="Importado" />
+							<f:selectItem itemLabel="Nacional" />
+						</h:selectOneMenu>
+
+						<p:outputLabel style="font-weight: bold;" value="CST ICMS"
+							for="cstIcms" />
+						<p:inputText id="cstIcms" size="10" maxlength="10"
+							styleClass="moeda" />
+
+						<p:outputLabel style="font-weight: bold;" value="CST PIS"
+							for="cstPIS" />
+						<p:inputText id="cstPIS" size="10" maxlength="10"
+							styleClass="moeda" />
+
+						<p:outputLabel style="font-weight: bold;" value="CST COFINS"
+							for="cstCofins" />
+						<p:inputText id="cstCofins" size="10" maxlength="10"
+							styleClass="moeda" />
+
+						<p:outputLabel style="font-weight: bold;" value="CFOP" for="cfop" />
+						<p:inputText id="cfop" size="10" maxlength="10" styleClass="moeda" />
+
+						<p:outputLabel style="font-weight: bold;" value="Val.Aliq.ICMS"
+							for="aliqIcms" />
+						<p:inputText id="aliqIcms" size="10" maxlength="10"
+							styleClass="moeda" />
+
+						<p:outputLabel style="font-weight: bold;" value="Val.Aliq.PIS"
+							for="aliqPis" />
+						<p:inputText id="aliqPis" size="10" maxlength="10"
+							styleClass="moeda" />
+
+						<p:outputLabel style="font-weight: bold;" value="Val.Aliq.COFINS"
+							for="aliqCofins" />
+						<p:inputText id="aliqCofins" size="10" maxlength="10"
+							styleClass="moeda" />
+
+					</p:panelGrid>
+				</p:tab>
+			</p:tabView>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,85 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Pesquisa clientes</ui:define>
+
+	<ui:define name="corpo">
+		
+		<h:form id="frmPesquisa">
+			<h2>Pesquisa clientes</h2>			
+			<p:messages autoUpdate="true" closable="true" />
+
+			<p:toolbar style="margin-top: 20px;height:50px" styleClass="well">
+				<p:toolbarGroup>
+					<h:commandButton value="Pesquisar" styleClass="btn btn-dark"
+						style="margin-top: -12px;"
+						action="#{pesquisaClientesBean.pesquisar}" update="@form" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+				
+				<h:commandLink id="pdf">
+			        <h:graphicImage library="images" name="papel.png" />
+			        <p:dataExporter type="pdf" target="tbl" fileName="cars" preProcessor="#{customizedDocumentsView.preProcessPDF}" />
+			    </h:commandLink>
+			    
+				<h:commandButton value="Imprimir"
+						styleClass="glyphicon glyphicon-print btn btn-dark"
+						style="margin-top: -12px;">
+						<p:printer target="clientesTable" />
+					</h:commandButton>
+				</p:toolbarGroup>
+
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+				<p:outputLabel style="font-weight: bold;" value="CPF" for="plu" />
+				<p:inputText id="plu" size="20"
+					value="#{pesquisaClientesBean.filtro.des_cpf}" />
+
+				<p:outputLabel style="font-weight: bold;" for="nome" value="Nome" />
+				<p:inputText id="nome" size="60"
+					value="#{pesquisaClientesBean.filtro.des_nome}" />
+			</p:panelGrid>
+
+			<p:dataTable id="clientesTable"
+				value="#{pesquisaClientesBean.clientesFiltrados}" var="cliente"
+				style="margin-top: 20px;zoom:75%;font-weight: bold;" emptyMessage="Nenhum cliente encontrado."
+				rows="20" paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom">
+
+				<p:column headerText="Código"
+					style="text-align: center; width: 43px">
+					<h:outputText value="#{cliente.id}" style="font-weight: bold;"/>
+				</p:column>
+				<p:column headerText="Nome" style="text-align: left; width: 180px">
+					<h:outputText value="#{cliente.des_nome}" style="font-weight: bold;"/>
+				</p:column>
+				<p:column headerText="CPF" style="text-align: left;width: 80px">
+					<h:outputText value="#{cliente.des_cpf}" style="font-weight: bold;"/>
+				</p:column>
+				<p:column headerText="Endereço"
+					style="text-align: left; width: 130px">
+					<h:outputText
+						value="#{cliente.des_endereco} - #{cliente.des_numero}" style="font-weight: bold;"/>
+				</p:column>
+				<p:column headerText="Cidade" style="text-align: left; width: 130px">
+					<h:outputText
+						value="#{cliente.cod_cidade.des_nome} - #{cliente.cod_cidade.des_uf}" style="font-weight: bold;"/>
+				</p:column>
+				<p:column headerText="Limite Convenio"
+					style="text-align: center; width: 50px">
+					<h:outputText value="#{cliente.val_limite_conv}" style="font-weight: bold;"/>
+				</p:column>
+				<p:column headerText="Limite Cheque"
+					style="text-align: center; width: 50px">
+					<h:outputText value="#{cliente.val_limite_cheq}" style="font-weight: bold;"/>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

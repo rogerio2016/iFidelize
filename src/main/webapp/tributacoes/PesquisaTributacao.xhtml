@@ -1,0 +1,100 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Pesquisa Tributações</ui:define>
+
+	<ui:define name="corpo">
+		<h:form id="frmPesquisa">
+			<h2>Pesquisa Tributações</h2>
+
+			<p:messages autoUpdate="true" closable="true" />
+			<p:toolbar style="margin-top: 20px;height:50px" styleClass="well">
+				<p:toolbarGroup>
+					<h:commandButton value="Pesquisar" styleClass="btn btn-dark"
+						style="margin-top: -12px;"
+						action="#{pesquisaTributacaoBean.pesquisar}" update="@form" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<h:button value="Novo" outcome="/tributacoes/CadastroTributacao"
+						style="margin-top: -12px;" styleClass="btn btn-dark" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+				<p:outputLabel style="font-weight: bold;" for="descricao"
+					value="Descrição" />
+				<p:inputText id="descricao" size="60"
+					value="#{pesquisaTributacaoBean.filtro.des_descricao}" />
+			</p:panelGrid>
+
+			<p:dataTable id="tributacoesTable"
+				value="#{pesquisaTributacaoBean.tributacoesFiltrados}"
+				var="tributacao" style="margin-top: 20px"
+				emptyMessage="Nenhuma tributacao encontrado." rows="20"
+				paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom">
+
+				<p:column headerText="Código"
+					style="text-align: center; width: 70px">
+					<h:outputText value="#{tributacao.id}" />
+				</p:column>
+				<p:column headerText="Descrição"
+					style="text-align: left; width: 400px">
+					<h:outputText value="#{tributacao.des_descricao}" />
+				</p:column>
+				<p:column headerText="Val.ICMS"
+					style="text-align: center; width: 80px">
+					<h:outputText value="#{tributacao.val_icms}" />
+				</p:column>
+				<p:column headerText="Código de Referência"
+					style="text-align: right; width: 140px">
+					<h:outputText value="#{tributacao.cod_referencia}" />
+				</p:column>
+
+				<p:column style="width: 100px; text-align: center">
+					<p:button outcome="/tributacoes/CadastroTributacao"
+						icon="ui-icon-pencil" title="Editar">
+						<f:param name="tributacao" value="#{tributacao.id}" />
+					</p:button>
+					
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						onclick="PF('confirmacaoExclusao').show();" process="@this">
+
+						<f:setPropertyActionListener
+							target="#{pesquisaTributacaoBean.tributacaoSelecionado}"
+							value="#{tributacao}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+			<p:dialog header="Exclusão de tributacao" modal="true"
+				closable="false" dynamic="false" resizable="false"
+				widgetVar="confirmacaoExclusao" id="confirmacaoExclusaoDialog"
+				style="text-align: center;align: center">
+
+				<h:outputText value="Deseja excluir esta tributação?" />
+				<h:panelGrid columns="2" id="painel3"
+					style="width: 80%; margin-top: 20px" columnClasses="rotulo, campo">
+					<h:column style='text-align:right;'>
+						<p:button value="Não" icon="ui-icon-close"
+							onclick="PF('confirmacaoExclusao').hide();return false;" />
+					</h:column>
+					<h:column>
+						<p:commandButton icon="ui-icon-check" value="Sim"
+							onclick="PF('confirmacaoExclusao').hide();"
+							action="#{pesquisaTributacaoBean.excluir}" process="@this"
+							update=":frmPesquisa:tributacoesTable" />
+					</h:column>
+				</h:panelGrid>
+			</p:dialog>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

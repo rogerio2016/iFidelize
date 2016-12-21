@@ -1,0 +1,181 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">#{cadastroEmpresaBean.editando ? 'Edição de empresa' : 'Novo empresa'}</ui:define>
+
+
+	<ui:define name="corpo">
+		<f:metadata>
+			<o:viewParam name="empresa" value="#{cadastroEmpresaBean.empresa}" />
+			<f:viewParam name="dummy" />
+			<f:event listener="#{cadastroEmpresaBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form>
+			<p:messages autoUpdate="true" closable="true" />
+			<h2>#{cadastroEmpresaBean.editando ? 'Edição de empresa' : 'Novo
+				empresa'}</h2>
+
+			<p:toolbar style="margin-top: 20px;height:50px" styleClass="well" >
+				<p:toolbarGroup>
+					<h:button value="Novo" outcome="/empresas/CadastroEmpresa" styleClass="btn btn-dark" style="margin-top: -12px;"/>
+					<h:commandButton value="Salvar" id="botaoSalvar" styleClass="btn btn-dark" style="margin-top: -12px;"
+						action="#{cadastroEmpresaBean.salvar}" update="@form" ajax="true" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<h:button value="Pesquisa" styleClass="btn btn-dark" outcome="/empresas/PesquisaEmpresas" style="margin-top: -12px;"/>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid style="width: 99%;margin-top:20px">
+
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Data de criação" id="dta_cadastro" />
+					</p:column>
+					<p:column>
+						<h:outputText id="dtacadastro"
+							value="#{cadastroEmpresaBean.empresa.dta_cadastro}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1" style="font-weight: bold;">
+						<p:outputLabel value="Nome" for="nome" />
+					</p:column>
+					<p:column colspan="3">
+						<p:inputText id="nome" size="100" maxlength="100"
+							style="width: 99%"
+							value="#{cadastroEmpresaBean.empresa.des_nome}" />
+					</p:column>
+
+				</p:row>
+				<p:row>
+					<p:column colspan="1" style="font-weight: bold;">
+						<p:outputLabel value="Nome Fantasia" for="fantasia" />
+					</p:column>
+					<p:column colspan="3">
+						<p:inputText id="fantasia" size="100" maxlength="100"
+							style="width: 99%"
+							value="#{cadastroEmpresaBean.empresa.des_fantasia}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column rowspan="1" style="font-weight: bold;">
+						<p:outputLabel value="CNPJ" for="cpfcnpj" />
+					</p:column>
+					<p:column rowspan="1" style="font-weight: bold;width: 2px;">
+						<p:inputText id="cpfcnpj" size="20" maxlength="20"
+							value="#{cadastroEmpresaBean.empresa.des_cnpj}" />
+					</p:column>
+
+					<p:column rowspan="1" style="font-weight: bold;">
+						<p:outputLabel value="IE" for="rgie" />
+					</p:column>
+					<p:column rowspan="1">
+						<p:inputText id="rgie" size="20" maxlength="15"
+							style="width: 95%"
+							value="#{cadastroEmpresaBean.empresa.des_ie}" />
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column colspan="1" style="font-weight: bold;">
+						<p:outputLabel value="Endereço" for="endereco" />
+					</p:column>
+					<p:column colspan="1" style="font-weight: bold;width: 50%">
+						<p:inputText id="endereco" size="60" maxlength="60"
+							value="#{cadastroEmpresaBean.empresa.des_endereco}" />
+					</p:column>
+
+					<p:column colspan="1" style="font-weight: bold;">
+						<p:outputLabel value="Número" for="numero" />
+					</p:column>
+					<p:column colspan="1">
+						<p:inputText id="numero" size="10" maxlength="15"
+							value="#{cadastroEmpresaBean.empresa.des_numero}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1" style="font-weight: bold;">
+						<p:outputLabel value="Bairro" for="bairro" />
+					</p:column>
+					<p:column colspan="1">
+						<p:inputText id="bairro" size="60" maxlength="60"
+							value="#{cadastroEmpresaBean.empresa.des_bairro}" />
+					</p:column>
+
+					<p:column colspan="1" style="font-weight: bold;">
+						<p:outputLabel value="CEP" for="cep" />
+					</p:column>
+					<p:column colspan="1">
+						<p:inputText id="cep" size="20" maxlength="15"
+							style="width: 95%"
+							value="#{cadastroEmpresaBean.empresa.des_cep}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1" style="font-weight: bold;">
+						<p:outputLabel value="Cidade" for="cidade" />
+					</p:column>
+					<p:column colspan="1">
+						<h:selectOneMenu id="cidade" required="true" styleClass="form-control" style="width: 400px"
+							value="#{cadastroEmpresaBean.empresa.cod_cidade}">
+							<f:selectItem itemLabel="Selecione a Cidade" />
+							<f:selectItems value="#{cadastroEmpresaBean.listarCidade}"
+								var="cod_cidade" itemValue="#{cod_cidade}"
+								itemLabel="#{cod_cidade.des_nome}" />
+						</h:selectOneMenu>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1" style="font-weight: bold;">
+						<p:outputLabel value="E-Mail" for="email" />
+					</p:column>
+					<p:column colspan="3">
+						<p:inputText id="email" size="100" maxlength="100"
+							style="width: 99%"
+							value="#{cadastroEmpresaBean.empresa.des_email}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1" style="font-weight: bold;">
+						<p:outputLabel value="Caminho Carga" for="carga" />
+					</p:column>
+					<p:column colspan="3">
+						<p:inputText id="carga" size="100" maxlength="100"
+							style="width: 99%"
+							value="#{cadastroEmpresaBean.empresa.des_caminhocarga}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1" style="font-weight: bold;">
+						<p:outputLabel value="IP TEF" for="tef" />
+					</p:column>
+					<p:column colspan="3">
+						<p:inputText id="tef" size="100" maxlength="100"
+							style="width: 99%"
+							value="#{cadastroEmpresaBean.empresa.des_iptef}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1" style="font-weight: bold;">
+						<p:outputLabel value="Mensagem PinPad" for="msgPinPad" />
+					</p:column>
+					<p:column colspan="3">
+						<p:inputText id="msgPinPad" size="100" maxlength="100"
+							style="width: 99%"
+							value="#{cadastroEmpresaBean.empresa.des_mensagempinpad}" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>				
+		</h:form>
+	</ui:define>
+</ui:composition>

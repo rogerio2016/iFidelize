@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>iFidelize - System</title>
+	<!-- Bootstrap core CSS -->
+
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources/fonts/css/font-awesome.css" />
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources/fonts/css/font-awesome.min.css" />
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+	<h:outputStylesheet library="css" name="custom.css" />
+	<h:outputStylesheet library="css" name="icheck/green.css" />
+	<h:outputStylesheet library="css" name="animate.min.css" />
+
+
+</h:head>
+<h:body style="background:#F7F7F7;">
+	<f:metadata>
+		<f:viewParam name="dummy" />
+		<f:event listener="#{loginBean.preRender}" type="preRenderView" />
+	</f:metadata>
+
+
+	<div class="">
+		<a class="hiddenanchor" id="toregister"></a> <a class="hiddenanchor"
+			id="tologin"></a>
+
+		<div id="wrapper">
+			<div id="login" class="animate form">
+				<p:growl id="messages" sticky="true" autoUpdate="true" />
+
+				<section class="login_content"> <h:form id="frm"
+					prependId="false">
+
+					<h1>Entrar</h1>
+
+					<div>
+						<p:inputText placeholder="Usuario" rendered="true" id="j_username"
+							value="#{loginBean.email}" />
+					</div>
+					<div>
+						<p:password placeholder="Senha" size="30" id="j_password" />
+					</div>
+					<div>
+						<!--  <a class="btn btn-default submit" href="Home.xhtml">Log in</a> -->
+						<h:commandButton styleClass="btn btn-default submit"
+							value="Entrar" action="#{loginBean.login}" ajax="false" />
+						<a class="reset_pass" href="#">Esqueceu a senha?</a>
+					</div>
+					<div class="clearfix"></div>
+					<div class="separator">
+
+						<p class="change_link">
+							Novo usúario? <a href="#toregister" class="to_register"> Crie
+								sua conta </a>
+						</p>
+						<div class="clearfix"></div>
+						<br />
+						<div>
+							<h1>
+								<span>
+									iFidelize - System
+								</span>
+							</h1>
+
+							<p>©2015 All Rights Reserved. Gentelella Alela! is a
+								Bootstrap 3 template. Privacy and Terms</p>
+						</div>
+					</div>
+
+				</h:form> <!-- form --> </section>
+				<!-- content -->
+			</div>
+		</div>
+	</div>
+</h:body>
+
+</html>

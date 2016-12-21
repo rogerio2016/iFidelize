@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:toolbar style="margin-top: 20px;height:50px" styleClass="well">
+		<p:toolbarGroup>
+			<h:button value="Novo" outcome="/pedidos/CadastroPedido"
+				styleClass="btn btn-dark" style="margin-top: -12px;" />
+			<h:commandButton value="Salvar" action="#{cadastroPedidoBean.salvar}"
+				update="@form" disabled="#{cadastroPedidoBean.pedido.naoAlteravel}"
+				styleClass="btn btn-dark" style="margin-top: -12px;" />
+		</p:toolbarGroup>
+
+		<p:toolbarGroup align="right">
+			<h:commandButton value="Emitir" styleClass="btn btn-dark"
+				style="margin-top: -12px;"
+				action="#{emissaoPedidoBean.emitirPedido}" process="@form"
+				update="@form" disabled="#{cadastroPedidoBean.pedido.naoEmissivel or not seguranca.emitirPedidoPermitido}" />
+
+			<h:commandButton value="Cancelar" styleClass="btn btn-dark"
+				style="margin-top: -12px;"
+				action="#{cancelamentoPedidoBean.cancelarPedido}" process="@this"
+				update="@form" disabled="#{cadastroPedidoBean.pedido.naoCancelavel or not seguranca.cancelarPedidoPermitido}" />
+
+			<h:commandButton value="Enviar por e-mail" styleClass="btn btn-dark"
+				style="margin-top: -12px;" />
+
+			<p:separator />
+
+			<h:button value="Pesquisa" outcome="/pedidos/PesquisaPedidos"
+				styleClass="btn btn-dark" style="margin-top: -12px;" />
+		</p:toolbarGroup>
+	</p:toolbar>
+
+</ui:composition>

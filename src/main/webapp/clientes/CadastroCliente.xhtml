@@ -1,0 +1,232 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">#{cadastroClienteBean.editando ? 'Edição de cliente' : 'Novo cliente'}</ui:define>
+
+
+	<ui:define name="corpo">
+		<f:metadata>
+			<o:viewParam name="cliente" value="#{cadastroClienteBean.cliente}" />
+			<f:viewParam name="dummy" />
+			<f:event listener="#{cadastroClienteBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form>
+			<p:messages autoUpdate="true" closable="true" />
+			<h2>#{cadastroClienteBean.editando ? 'Edição de cliente' : 'Novo
+				cliente'}</h2>
+
+			<p:toolbar style="margin-top: 20px;height:50px" styleClass="well" >
+				<p:toolbarGroup>
+					<h:button value="Novo" outcome="/clientes/CadastroCliente" styleClass="btn btn-dark" style="margin-top: -12px;"/>
+					<h:commandButton value="Salvar" id="botaoSalvar" styleClass="btn btn-dark" style="margin-top: -12px;"
+						action="#{cadastroClienteBean.salvar}" update="@form" ajax="true" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<h:button value="Pesquisa" styleClass="btn btn-dark" outcome="/clientes/PesquisaClientes" style="margin-top: -12px;"/>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:tabView dynamic="true" cache="false"
+				style="width: 100%; margin-top: 20px">
+				<p:tab title="Dados basicos">
+					<p:panelGrid style="width: 99%;margin-top:20px">
+
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Data de criação" id="dta_cadastro" />
+							</p:column>
+							<p:column>
+								<h:outputText id="dtacadastro"
+									value="#{cadastroClienteBean.cliente.dta_cadastro}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="1" style="font-weight: bold;">
+								<p:outputLabel value="Nome" for="nome" />
+							</p:column>
+							<p:column colspan="3">
+								<p:inputText id="nome" size="100" maxlength="100"
+									style="width: 99%"
+									value="#{cadastroClienteBean.cliente.des_nome}" />
+							</p:column>
+
+						</p:row>
+						<p:row>
+							<p:column rowspan="1" style="font-weight: bold;">
+								<p:outputLabel value="CPF/CNPJ" for="cpfcnpj" />
+							</p:column>
+							<p:column rowspan="1" style="font-weight: bold;width: 2px;">
+								<p:inputText id="cpfcnpj" size="20" maxlength="15"
+									value="#{cadastroClienteBean.cliente.des_cpf}" />
+							</p:column>
+
+							<p:column rowspan="1" style="font-weight: bold;">
+								<p:outputLabel value="RG/IE" for="rgie" />
+							</p:column>
+							<p:column rowspan="1">
+								<p:inputText id="rgie" size="20" maxlength="15"
+									style="width: 95%"
+									value="#{cadastroClienteBean.cliente.des_rg}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Data de Nascimento" id="dta_nascimento" />
+							</p:column>
+							<p:column>
+								<p:calendar size="10" pattern="dd/MM/yyyy"
+									value="#{cadastroClienteBean.cliente.dta_nascimento}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="1" style="font-weight: bold;">
+								<p:outputLabel value="Endereço" for="endereco" />
+							</p:column>
+							<p:column colspan="1" style="font-weight: bold;width: 50%">
+								<p:inputText id="endereco" size="60" maxlength="60"
+									value="#{cadastroClienteBean.cliente.des_endereco}" />
+							</p:column>
+
+							<p:column colspan="1" style="font-weight: bold;">
+								<p:outputLabel value="Número" for="numero" />
+							</p:column>
+							<p:column colspan="1">
+								<p:inputText id="numero" size="10" maxlength="15"
+									value="#{cadastroClienteBean.cliente.des_numero}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="1" style="font-weight: bold;">
+								<p:outputLabel value="Bairro" for="bairro" />
+							</p:column>
+							<p:column colspan="1">
+								<p:inputText id="bairro" size="60" maxlength="60"
+									value="#{cadastroClienteBean.cliente.des_bairro}" />
+							</p:column>
+
+							<p:column colspan="1" style="font-weight: bold;">
+								<p:outputLabel value="CEP" for="cep" />
+							</p:column>
+							<p:column colspan="1">
+								<p:inputText id="cep" size="20" maxlength="15"
+									style="width: 95%"
+									value="#{cadastroClienteBean.cliente.des_cep}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="1" style="font-weight: bold;">
+								<p:outputLabel value="Cidade" for="cidade" />
+							</p:column>
+							<p:column colspan="1">
+								<h:selectOneMenu id="cidade" required="true" styleClass="form-control" style="width: 400px"
+									value="#{cadastroClienteBean.cliente.cod_cidade}">
+									<f:selectItem itemLabel="Selecione a Cidade" />
+									<f:selectItems value="#{cadastroClienteBean.listarCidade}"
+										var="cod_cidade" itemValue="#{cod_cidade}"
+										itemLabel="#{cod_cidade.des_nome}" />
+								</h:selectOneMenu>
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="1" style="font-weight: bold;">
+								<p:outputLabel value="Convenio" for="convenio" />
+							</p:column>
+							<p:column colspan="1">
+								<p:autoComplete id="convenio" size="55" dropdown="true" />
+							</p:column>
+
+							<p:column colspan="1" style="font-weight: bold;">
+								<p:outputLabel value="Senha" for="senha" />
+							</p:column>
+							<p:column colspan="1">
+								<p:password id="senha"
+									value="#{cadastroClienteBean.cliente.des_senha}" />
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column colspan="1" style="font-weight: bold;">
+								<p:outputLabel value="E-Mail" for="email" />
+							</p:column>
+							<p:column colspan="3">
+								<p:inputText id="email" size="100" maxlength="100"
+									style="width: 99%"
+									value="#{cadastroClienteBean.cliente.des_email}" />
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+				</p:tab>
+				<p:tab title="Valores/Tributações">
+					<p:panelGrid style="width: 40%;margin-top:20px">
+
+						<p:row>
+							<p:column colspan="1" style="font-weight: bold;">
+								<p:outputLabel value="Limite Convênio" for="valConv" />
+							</p:column>
+							<p:column colspan="1" style="font-weight: bold">
+								<p:inputText id="valConv" size="20" maxlength="15"
+									value="#{cadastroClienteBean.cliente.val_limite_conv}" styleClass="moeda" >
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
+							</p:column>
+
+							<p:column colspan="3" style="font-weight: bold;">
+								<p:outputLabel value="Limite Cheque" for="valCheque" />
+							</p:column>
+							<p:column colspan="4">
+								<p:inputText id="valCheque" size="20"
+									value="#{cadastroClienteBean.cliente.val_limite_cheq}" styleClass="moeda" >
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column colspan="1" style="font-weight: bold;">
+								<p:outputLabel value="Desconto Compra" for="valDecCompra" />
+							</p:column>
+							<p:column colspan="5" style="font-weight: bold">
+								<p:inputText id="valDecCompra" size="20" maxlength="15"
+									value="#{cadastroClienteBean.cliente.val_desconto}" styleClass="moeda" >
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+				</p:tab>
+				<p:tab title="Parametros">
+					<p:panelGrid columns="2" id="painel3"
+						style="width: 20%; margin-top: 20px" columnClasses="rotulo, campo">
+
+						<p:column>
+							<p:outputLabel style="font-weight: bold;" value="Permite Fiado?"
+								for="fiado" />
+						</p:column>
+						<p:column>
+							<p:selectBooleanCheckbox id="fiado" />
+						</p:column>
+
+						<p:column>
+							<p:outputLabel style="font-weight: bold;" value="Desconto Geral?"
+								for="descontoGeral" />
+						</p:column>
+						<p:column>
+							<p:selectBooleanCheckbox id="descontoGeral" />
+						</p:column>
+
+
+					</p:panelGrid>
+				</p:tab>
+			</p:tabView>
+		</h:form>
+	</ui:define>
+</ui:composition>

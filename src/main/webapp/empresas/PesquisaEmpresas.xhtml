@@ -1,0 +1,99 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Pesquisa clientes</ui:define>
+
+	<ui:define name="corpo">
+		<h:form id="frmPesquisa">
+			<h2>Pesquisa empresas</h2>
+			<p:messages autoUpdate="true" closable="true" />
+
+			<p:toolbar style="margin-top: 20px;height:50px" styleClass="well">
+				<p:toolbarGroup>
+					<h:commandButton value="Pesquisar" styleClass="btn btn-dark"
+						style="margin-top: -12px;"
+						action="#{pesquisaEmpresasBean.pesquisar}" update="@form" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<h:button value="Novo" outcome="/empresas/CadastroEmpresa"
+						style="margin-top: -12px;" styleClass="btn btn-dark" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+				<p:outputLabel style="font-weight: bold;" value="CNPJ" for="cnpj" />
+				<p:inputText id="cnpj" size="20"
+					value="#{pesquisaEmpresasBean.filtro.des_cnpj}" />
+
+				<p:outputLabel style="font-weight: bold;" for="nome" value="Nome" />
+				<p:inputText id="nome" size="60"
+					value="#{pesquisaEmpresasBean.filtro.des_nome}" />
+			</p:panelGrid>
+
+			<p:dataTable id="empresasTable"
+				value="#{pesquisaEmpresasBean.empresasFiltrados}" var="empresa"
+				style="margin-top: 20px" emptyMessage="Nenhum empresa encontrado."
+				rows="20" paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom">
+
+				<p:column headerText="Código"
+					style="text-align: center; width: 70px">
+					<h:outputText value="#{empresa.id}" />
+				</p:column>
+				<p:column headerText="Nome" style="text-align: left; width: 300px">
+					<h:outputText value="#{empresa.des_nome}" />
+				</p:column>
+				<p:column headerText="CNPJ" style="width: 150px">
+					<h:outputText value="#{empresa.des_cnpj}" />
+				</p:column>
+				<p:column headerText="Endereço"
+					style="text-align: right; width: 120px">
+					<h:outputText value="#{empresa.des_endereco}" />
+				</p:column>
+				<p:column headerText="Bairro"
+					style="text-align: center; width: 100px">
+					<h:outputText value="#{empresa.des_bairro}" />
+				</p:column>
+				<p:column style="width: 100px; text-align: center">
+					<p:button outcome="/empresas/CadastroEmpresa" icon="ui-icon-pencil"
+						title="Editar">
+						<f:param name="empresa" value="#{empresa.id}" />
+					</p:button>
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						onclick="PF('confirmacaoExclusao').show();" process="@this">
+						<f:setPropertyActionListener
+							target="#{pesquisaEmpresasBean.empresaSelecionado}"
+							value="#{empresa}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+			<p:dialog header="Exclusão de empresa" modal="true"
+				closable="false" dynamic="false" resizable="false"
+				widgetVar="confirmacaoExclusao" id="confirmacaoExclusaoDialog"
+				style="text-align: center;align: center">
+
+				<h:outputText value="Deseja excluir este empresa?" />
+				<h:panelGrid columns="2" id="painel3"
+					style="width: 80%; margin-top: 20px" columnClasses="rotulo, campo">
+					<h:column style='text-align:right;'>
+						<p:button value="Não" icon="ui-icon-close"
+							onclick="PF('confirmacaoExclusao').hide();return false;" />
+					</h:column>
+					<h:column>
+						<p:commandButton icon="ui-icon-check" value="Sim"
+							onclick="PF('confirmacaoExclusao').hide();"
+							action="#{pesquisaEmpresasBean.excluir}" process="@this"
+							update=":frmPesquisa:empresasTable" />
+					</h:column>
+				</h:panelGrid>
+			</p:dialog>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
